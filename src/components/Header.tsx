@@ -12,7 +12,7 @@ const Header = () => {
   const { data: credits } = api.user.getCredits.useQuery();
   return (
     <header className="container mx-auto flex h-16 items-center justify-between px-4 dark:bg-gray-800">
-      <PrimaryLink href="/">Icon Generator</PrimaryLink>
+      <PrimaryLink href="/">Paint Generator</PrimaryLink>
       <ul className="flex gap-4">
         <li>
           <PrimaryLink href="/generate">Generate</PrimaryLink>

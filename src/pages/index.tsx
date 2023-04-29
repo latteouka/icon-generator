@@ -18,10 +18,10 @@ function HeroBanner() {
       </div>
       <Image
         className="order-first sm:-order-none"
-        src="/banner.jpeg"
+        src="/hero.png"
         alt="an image of a bunch of icons"
-        width={600}
-        height={394}
+        width={979}
+        height={648}
       />
     </section>
   );
