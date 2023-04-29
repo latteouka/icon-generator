@@ -16,11 +16,22 @@ const server = z.object({
     // Since NextAuth.js automatically uses the VERCEL_URL if present.
     (str) => process.env.VERCEL_URL ?? str,
     // VERCEL_URL doesn't include `https` so it cant be validated as a URL
-    process.env.VERCEL ? z.string().min(1) : z.string().url(),
+    process.env.VERCEL ? z.string().min(1) : z.string().url()
   ),
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
-  DISCORD_CLIENT_ID: z.string(),
-  DISCORD_CLIENT_SECRET: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+
+  DALLE_API_KEY: z.string(),
+
+  MOCK_DALLE: z.string(),
+  ACCESS_KEY_ID: z.string(),
+  SECRET_ACCESS_KEY: z.string(),
+
+  STRIPE_SECRET_KEY: z.string(),
+  HOST_NAME: z.string(),
+  PRICE_ID: z.string(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
 });
 
 /**
@@ -28,11 +39,10 @@ const server = z.object({
  * built with invalid env vars. To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object(
-  /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ (
-    {
-      // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-    }
-  ),
+  /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ ({
+    // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
+  })
 );
 
 /**
@@ -46,9 +56,19 @@ const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-  DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
-  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  DALLE_API_KEY: process.env.DALLE_API_KEY,
+  MOCK_DALLE: process.env.MOCK_DALLE,
+  ACCESS_KEY_ID: process.env.ACCESS_KEY_ID,
+  SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  HOST_NAME: process.env.HOST_NAME,
+  PRICE_ID: process.env.PRICE_ID,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
 };
 
 // Don't touch the part below
@@ -78,7 +98,7 @@ if (!skip) {
   if (parsed.success === false) {
     console.error(
       "❌ Invalid environment variables:",
-      parsed.error.flatten().fieldErrors,
+      parsed.error.flatten().fieldErrors
     );
     throw new Error("Invalid environment variables");
   }
@@ -92,7 +112,7 @@ if (!skip) {
         throw new Error(
           process.env.NODE_ENV === "production"
             ? "❌ Attempted to access a server-side environment variable on the client"
-            : `❌ Attempted to access server-side environment variable '${prop}' on the client`,
+            : `❌ Attempted to access server-side environment variable '${prop}' on the client`
         );
       return target[/** @type {keyof typeof target} */ (prop)];
     },

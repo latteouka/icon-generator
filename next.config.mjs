@@ -18,5 +18,11 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    domains: [
+      "oaidalleapiprodscus.blob.core.windows.net",
+      "chundev-icon-generator.s3.ap-northeast-1.amazonaws.com",
+    ],
+  },
 };
 export default config;
