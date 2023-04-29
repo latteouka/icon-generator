@@ -69,7 +69,7 @@ export const generateRouter = createTRPCRouter({
         });
       }
 
-      const finalPrompt = `oil painting, in ${input.color} theme, of a ${input.prompt}`;
+      const finalPrompt = `high quality oil painting, trending on art station, in ${input.color} theme, of a ${input.prompt}`;
 
       // ask ai to generate
       const base64Image = await generateIcon(finalPrompt, input.number);
