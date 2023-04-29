@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 import Image from "next/image";
 import SeoHead from "~/components/SeoHead";
-import { BUCKET_URL } from "~/server/api/routers/generate";
 import { api } from "~/utils/api";
 
 const GeneratePage: NextPage = () => {

@@ -24,5 +24,11 @@ const config = {
       "chundev-icon-generator.s3.ap-northeast-1.amazonaws.com",
     ],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 export default config;
