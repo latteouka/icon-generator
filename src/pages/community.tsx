@@ -3,13 +3,13 @@ import Image from "next/image";
 import SeoHead from "~/components/SeoHead";
 import { api } from "~/utils/api";
 
-const GeneratePage: NextPage = () => {
-  const icons = api.icon.getIcons.useQuery();
+const Community: NextPage = () => {
+  const icons = api.icon.getCommunityIcons.useQuery();
   return (
     <>
       <SeoHead title="Your Icons" desc="Your icons" />
       <main className="container mx-auto mt-24 flex min-h-screen flex-col px-8">
-        <h1 className="mb-4 text-4xl">Your Images</h1>
+        <h1 className="mb-4 text-4xl">All generated Images</h1>
         <ul className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
           {icons.data?.map((icon) => (
             <li className="" key={icon.id}>
@@ -28,4 +28,4 @@ const GeneratePage: NextPage = () => {
   );
 };
 
-export default GeneratePage;
+export default Community;

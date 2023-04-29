@@ -26,6 +26,7 @@ const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
     prompt: "",
     color: "",
+    number: "1",
   });
 
   const generateIcon = api.generate.generateIcon.useMutation({
@@ -53,20 +54,24 @@ const GeneratePage: NextPage = () => {
     <>
       <SeoHead title="Image Generator" desc="Create your own AI images" />
       <main className="container mx-auto flex min-h-screen flex-col justify-center px-8">
-        <h1 className="text-6xl">Generate yout icons</h1>
-        <p className="mb-12">
+        <h1 className="text-6xl">Generate your oil paint</h1>
+        <p className="mb-12 mt-4">
           Fill out the form below to start generating your icons.
         </p>
         <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
           <h2 className="text-xl">
-            1. Describe what you want your icon to look like.
+            1. Describe what you want your paint to look like.
           </h2>
           <FormGroup className="mb-12">
-            <label>Prompt</label>
-            <Input value={form.prompt} onChange={updateForm("prompt")} />
+            <label>Prompt:</label>
+            <Input
+              value={form.prompt}
+              onChange={updateForm("prompt")}
+              type="text"
+            />
           </FormGroup>
 
-          <h2 className="text-xl">2. Pick your icon color</h2>
+          <h2 className="text-xl">2. Pick your theme color</h2>
           <FormGroup className="mb-12 grid grid-cols-4">
             {colors.map((color) => (
               <label className="flex gap-2 text-xl" key={color}>
@@ -82,6 +87,18 @@ const GeneratePage: NextPage = () => {
             {/* <Input value={form.prompt} onChange={updateForm("color")} /> */}
           </FormGroup>
 
+          <h2 className="text-xl">3. How many do you want?</h2>
+          <FormGroup className="mb-12">
+            <label>Number of paints: {form.number}</label>
+            <input
+              type="range"
+              max="10"
+              min="1"
+              defaultValue="1"
+              onChange={updateForm("number")}
+              className="dark:bg-gray-70 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+            />
+          </FormGroup>
           {/* Submit */}
           <Button disabled={generateIcon.isLoading}>
             {generateIcon.isLoading && <LoadingSpinner />}
