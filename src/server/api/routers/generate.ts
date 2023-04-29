@@ -2,11 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Configuration, OpenAIApi } from "openai";
 
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { env } from "~/env.mjs";
 import { b64Image } from "~/data/b64image";
 import AWS from "aws-sdk";
@@ -27,18 +23,18 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-async function generateIcon(prompt: string): Promise<string | undefined> {
+async function generateIcon(prompt: string, number: number): Promise<string[]> {
   if (env.MOCK_DALLE === "true") {
-    return b64Image;
+    return new Array<string>(number).fill(b64Image);
   } else {
     const response = await openai.createImage({
       prompt,
-      n: 1,
+      n: number,
       size: "512x512",
       response_format: "b64_json",
     });
     // fs.writeFileSync("./image.txt", response.data.data[0]?.b64_json as string);
-    return response.data.data[0]?.b64_json;
+    return response.data.data.map((result) => result.b64_json || "");
   }
 }
 
@@ -48,6 +44,7 @@ export const generateRouter = createTRPCRouter({
       z.object({
         prompt: z.string(),
         color: z.string(),
+        number: z.number().min(1).max(10),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -73,31 +70,34 @@ export const generateRouter = createTRPCRouter({
       }
 
       const finalPrompt = `oil painting, in ${input.color} theme, of a ${input.prompt}`;
-      // const finalPrompt = `hand painted, cute cat, laughing, rolling on the ground`;
 
       // ask ai to generate
-      const base64Image = await generateIcon(finalPrompt);
+      const base64Image = await generateIcon(finalPrompt, input.number);
 
-      const icon = await ctx.prisma.icon.create({
-        data: {
-          prompt: finalPrompt,
-          userId: ctx.session.user.id,
-        },
-      });
-
-      // save the images to s3
-      await s3
-        .putObject({
-          Bucket: "chundev-icon-generator",
-          Body: Buffer.from(base64Image as string, "base64"),
-          Key: icon.id,
-          ContentEncoding: "base64",
-          ContentType: "image/png",
+      const allGeneratedImages = await Promise.all(
+        base64Image.map(async (image) => {
+          const icon = await ctx.prisma.icon.create({
+            data: {
+              prompt: finalPrompt,
+              userId: ctx.session.user.id,
+            },
+          });
+          // save to s3
+          await s3
+            .putObject({
+              Bucket: "chundev-icon-generator",
+              Body: Buffer.from(image, "base64"),
+              Key: icon.id,
+              ContentEncoding: "base64",
+              ContentType: "image/png",
+            })
+            .promise();
+          return icon;
         })
-        .promise();
+      );
 
-      return {
-        imageUrl: BUCKET_URL + icon.id,
-      };
+      return allGeneratedImages.map((image) => {
+        return BUCKET_URL + image.id;
+      });
     }),
 });

@@ -21,7 +21,7 @@ const colors = [
 ];
 
 const GeneratePage: NextPage = () => {
-  const [imageUrl, setImageUrl] = useState("");
+  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
 
   const [form, setForm] = useState({
     prompt: "",
@@ -31,14 +31,14 @@ const GeneratePage: NextPage = () => {
 
   const generateIcon = api.generate.generateIcon.useMutation({
     onSuccess(data) {
-      if (!data.imageUrl) return;
-      setImageUrl(data.imageUrl);
+      if (data.length === 0) return;
+      setImagesUrl(data);
     },
   });
 
   function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
-    generateIcon.mutate(form);
+    generateIcon.mutate({ ...form, number: parseInt(form.number) });
     setForm((prev) => ({ ...prev, prompt: "" }));
   }
 
@@ -104,14 +104,22 @@ const GeneratePage: NextPage = () => {
             {generateIcon.isLoading && <LoadingSpinner />}
             {!generateIcon.isLoading && "Submit"}
           </Button>
-          {imageUrl && (
-            <Image
-              src={imageUrl}
-              alt="icon"
-              height={400}
-              width={400}
-              className="mb-12 rounded"
-            />
+          {imagesUrl.length > 0 && (
+            <>
+              <h2>Result:</h2>
+              <section className="mb-12 grid grid-cols-4 gap-4">
+                {imagesUrl.map((url) => (
+                  <Image
+                    key={url}
+                    src={url}
+                    alt="icon"
+                    height={200}
+                    width={200}
+                    className="rounded"
+                  />
+                ))}
+              </section>
+            </>
           )}
         </form>
       </main>
