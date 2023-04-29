@@ -4,8 +4,8 @@ on: [push, pull_request]
 
 env:
   DATABASE_URL: "https://something.com"
-  NEXTAUTH_SECRET: ""
-  NEXTAUTH_URL: ""
+  NEXTAUTH_SECRET: "testtest"
+  NEXTAUTH_URL: "https://localhost:3000/api/auth"
   GOOGLE_CLIENT_ID: ""
   GOOGLE_CLIENT_SECRET: ""
   DALLE_API_KEY: ""
