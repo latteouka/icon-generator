@@ -19,7 +19,7 @@ const s3 = new AWS.S3({
   region: "ap-northeast-1",
 });
 
-const BUCKET_URL =
+export const BUCKET_URL =
   "https://chundev-icon-generator.s3.ap-northeast-1.amazonaws.com/";
 
 const configuration = new Configuration({
