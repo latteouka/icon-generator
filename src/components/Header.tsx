@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <header className="container mx-auto flex h-16 items-center justify-between px-4 dark:bg-gray-800">
       <PrimaryLink href="/">Icon Generator</PrimaryLink>
-      <ul className="flex gap-2">
+      <ul className="flex gap-4">
         <li>
           <PrimaryLink href="/generate">Generate</PrimaryLink>
         </li>
