@@ -54,16 +54,16 @@ const GeneratePage: NextPage = () => {
     <>
       <SeoHead title="Image Generator" desc="Create your own AI images" />
       <main className="container mx-auto flex min-h-screen flex-col justify-center px-8">
-        <h1 className="text-6xl">Generate your oil paint</h1>
+        <h1 className="mt-8 text-6xl">Generate your oil paint</h1>
         <p className="mb-12 mt-4">
-          Fill out the form below to start generating your icons.
+          Fill out the form below to start generating your images.
         </p>
         <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
           <h2 className="text-xl">
             1. Describe what you want your paint to look like.
           </h2>
           <FormGroup className="mb-12">
-            <label>Prompt:</label>
+            <label>About the paint:</label>
             <Input
               value={form.prompt}
               onChange={updateForm("prompt")}
@@ -71,7 +71,7 @@ const GeneratePage: NextPage = () => {
             />
           </FormGroup>
 
-          <h2 className="text-xl">2. Pick your theme color</h2>
+          <h2 className="text-xl">2. Pick your main theme color</h2>
           <FormGroup className="mb-12 grid grid-cols-4">
             {colors.map((color) => (
               <label className="flex gap-2 text-xl" key={color}>
@@ -100,7 +100,7 @@ const GeneratePage: NextPage = () => {
             />
           </FormGroup>
           {/* Submit */}
-          <Button disabled={generateIcon.isLoading}>
+          <Button disabled={generateIcon.isLoading} className="mb-12">
             {generateIcon.isLoading && <LoadingSpinner />}
             {!generateIcon.isLoading && "Submit"}
           </Button>

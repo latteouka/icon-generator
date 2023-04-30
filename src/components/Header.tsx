@@ -11,19 +11,23 @@ const Header = () => {
 
   const { data: credits } = api.user.getCredits.useQuery();
   return (
-    <header className="container mx-auto flex h-16 items-center justify-between px-4 dark:bg-gray-800">
+    <header className="container mx-auto flex h-16 items-center justify-between px-4 dark:bg-slate-800">
       <PrimaryLink href="/">Paint Generator</PrimaryLink>
       <ul className="flex gap-4">
         <li>
           <PrimaryLink href="/generate">Generate</PrimaryLink>
         </li>
+        <li>|</li>
         <li>
           <PrimaryLink href="/community">Community</PrimaryLink>
         </li>
         {isLoggedIn && (
-          <li>
-            <PrimaryLink href="/collection">Collection</PrimaryLink>
-          </li>
+          <>
+            <li>|</li>
+            <li>
+              <PrimaryLink href="/collection">Collection</PrimaryLink>
+            </li>
+          </>
         )}
       </ul>
       <ul className="flex gap-2">

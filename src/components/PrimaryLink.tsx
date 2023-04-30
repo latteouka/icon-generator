@@ -1,9 +1,15 @@
+import clsx from "clsx";
 import Link, { type LinkProps } from "next/link";
 
-const PrimaryLink = (props: LinkProps & { children: React.ReactNode }) => {
+type PrimaryLinkProps = LinkProps & {
+  children: React.ReactNode;
+  className?: string;
+};
+
+const PrimaryLink = ({ children, className, ...props }: PrimaryLinkProps) => {
   return (
-    <Link href={props.href} className="hover:text-cyan-500">
-      {props.children}
+    <Link href={props.href} className={clsx(className, "hover:text-slate-400")}>
+      {children}
     </Link>
   );
 };

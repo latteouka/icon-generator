@@ -1,8 +1,0 @@
-# this file is for fd searching
-# used by telescope
-
-#  'unignore env files when search'
-!.env
-!.env.*
-
-.git

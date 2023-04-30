@@ -3,6 +3,7 @@ import clsx from "clsx";
 const Button = (
   props: React.ComponentPropsWithoutRef<"button"> & {
     variant?: "primary" | "secondary";
+    className?: string;
   }
 ) => {
   const color =
@@ -12,7 +13,11 @@ const Button = (
   return (
     <button
       {...props}
-      className={clsx("rounded px-4 py-2 disabled:bg-gray-600", color)}
+      className={clsx(
+        props.className,
+        "rounded px-3 py-1 text-white disabled:bg-gray-600",
+        color
+      )}
     >
       {props.children}
     </button>

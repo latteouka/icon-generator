@@ -11,7 +11,7 @@ const PrimaryLink = (
       href={props.href}
       className={clsx(
         className ?? "",
-        "rounded bg-blue-400 px-4 py-2 hover:bg-blue-500"
+        "rounded bg-blue-400 px-4 py-2 text-white hover:bg-blue-500"
       )}
     >
       {children}

@@ -7,22 +7,25 @@ function HeroBanner() {
   return (
     <section className="mb-24 mt-12 grid grid-cols-1 gap-12 px-8 sm:mt-24 sm:grid-cols-2">
       <div className="flex flex-col gap-4">
-        <h1 className="text-6xl">Generate icons with a click of a button</h1>
-        <p className="text-2xl">
-          Use AI to generate icons in seconds instead of paying a designer and
-          waiting for them to create them for you.
+        <h1 className="text-4xl md:text-6xl">
+          Generate oil paints with a click
+        </h1>
+        <p className="text-xl md:text-2xl">
+          Use AI to generate oil paint images in seconds because I cannot draw.
         </p>
         <PrimaryLinkButton href="/generate" className="self-start">
-          Generate your Icons
+          Generate your Images
         </PrimaryLinkButton>
       </div>
-      <Image
-        className="order-first sm:-order-none"
-        src="/hero.png"
-        alt="an image of a bunch of icons"
-        width={979}
-        height={648}
-      />
+      <div className="flex items-center justify-center">
+        <Image
+          className="order-first sm:-order-none"
+          src="/hero.png"
+          alt="an image of a bunch of icons"
+          width={979}
+          height={648}
+        />
+      </div>
     </section>
   );
 }
